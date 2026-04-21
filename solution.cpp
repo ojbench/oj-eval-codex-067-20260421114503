@@ -1,6 +1,8 @@
 #include <optional>
 #include <stdexcept>
 #include <memory>
+#include <iostream>
+#include <ostream>
 
 class RefCellError : public std::runtime_error {
 public:
@@ -168,7 +170,7 @@ public:
     };
 
     // Destructor
-    ~RefCell() {
+    ~RefCell() noexcept(false) {
         if (state) {
             if (state->mut_borrowed || state->imm_cnt != 0) {
                 throw DestructionError("RefCell destroyed while borrowed");
@@ -176,4 +178,3 @@ public:
         }
     }
 };
-
